@@ -1,0 +1,23 @@
+---
+- name: Dump Mysql database
+  hosts: dump
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: install python3-mysqldb
+      apt:
+        pkg:
+        - python3-mysqldb
+
+    - name: "Dump {{ db }} database from server {{ ansible_hostname }}"
+      community.mysql.mysql_db:
+        state: dump
+        name: "{{ db }}"
+        target: "/tmp/{{ db }}.sql"
+
+    - name: "Copy {{ db }}.sql from server {{ ansible_hostname }} to local /tmp"
+      ansible.builtin.fetch:
+        src: "/tmp/{{ db }}.sql"
+        dest: "/tmp/"
+        flat: yes

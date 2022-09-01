@@ -1,0 +1,22 @@
+---
+- name: Import Mysql database to staging/demo server
+  hosts: import
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: install python-mysqldb
+      apt:
+        pkg:
+        - python3-mysqldb
+
+    - name: "Copy /tmp/{{ from_db }}.sql to server {{ ansible_hostname }}"
+      ansible.builtin.copy:
+        src: "/tmp/{{ from_db }}.sql"
+        dest: "/tmp/"
+
+    - name: "Import /tmp/{{ from_db }}.sql to {{ to_db }} database on {{ ansible_hostname }}"
+      community.mysql.mysql_db:
+        state: import
+        name: "{{ to_db }}"
+        target: "/tmp/{{ from_db }}.sql"

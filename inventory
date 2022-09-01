@@ -1,0 +1,10 @@
+lambda ansible_host=10.0.0.127
+demos ansible_host=10.0.0.226
+
+[dump]
+lambda
+
+[import]
+demos
+vagrant-*
+
