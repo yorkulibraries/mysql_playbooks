@@ -1,0 +1,7 @@
+- name: refresh staging database
+  hosts: all
+  become: yes
+
+- import_playbook: dump.yml 
+- import_playbook: import.yml 
+
