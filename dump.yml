@@ -16,8 +16,11 @@
         name: "{{ db }}"
         target: "/tmp/{{ db }}.sql"
 
-    - name: "Copy {{ db }}.sql from server {{ ansible_hostname }} to local /tmp"
-      ansible.builtin.fetch:
-        src: "/tmp/{{ db }}.sql"
-        dest: "/tmp/"
-        flat: yes
+    - block:
+      - name: "Copy {{ db }}.sql from server {{ ansible_hostname }} to local /tmp"
+        ansible.builtin.fetch:
+          src: "/tmp/{{ db }}.sql"
+          dest: "/tmp/"
+          flat: yes
+          sudo: no
+      become: no
