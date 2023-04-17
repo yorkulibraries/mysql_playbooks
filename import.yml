@@ -1,6 +1,6 @@
 ---
 - name: Import Mysql database to staging/demo server
-  hosts: import
+  hosts: import,vagrant*
   become: yes
   gather_facts: yes
 
